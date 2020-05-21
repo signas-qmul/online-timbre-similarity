@@ -1,0 +1,12 @@
+{
+  "name": "online-timbre-dissimilarity",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "git@github.com:ben-hayes/online-timbre-similarity.git",
+  "author": "Ben Hayes <ben@benhayes.net>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.5.7"
+  }
+}
