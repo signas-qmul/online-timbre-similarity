@@ -9,21 +9,23 @@ requirejs.config({
     }
 });
 
-define(['lab', 'templating', 'screens'], function(lab, templating, screens) {
+define(['lab', 'templating', 'sections', 'screens'], function(lab, templating, sections, screens) {
 async function get() {
+    const experimentSpecReq = await fetch('api/get-experiment-spec');
+    const experimentSpec = await experimentSpecReq.json();
+
     const experimentScreens = ['dissimilarity_rating'];
     const templates = await templating.loadTemplates(experimentScreens);
     const screenText = await templating.loadScreenText(experimentScreens);
 
-    const dissimilarityScreen = screens.dissimilarityScreen(
+    const dissimilaritySection = sections.dissimilarityInnerBlock(
         templating.populateScreenTemplate(
             templates.dissimilarity_rating,
             screenText.dissimilarity_rating),
-        ["vocal_synthetic_003-091-025.wav",
-            "bass_electronic_018-024-100.wav"]);
+        experimentSpec.trials);
 
     const experiment = new lab.flow.Sequence({
-        content: [dissimilarityScreen],
+        content: [dissimilaritySection],
     });
     return experiment;
 }

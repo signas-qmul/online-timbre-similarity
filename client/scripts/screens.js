@@ -12,13 +12,12 @@ requirejs.config({
 define(['lab', 'templating'], function(lab, templating) {
 return {
     dissimilarityScreen: (template, audioFiles) => {
-        const first = Math.random() >= 0.5 ? 1 : 0;
-        const audioFileA = audioFiles[first];
-        const audioFileB = audioFiles[1 - first];
-
         const populatedTemplate = templating.populateScreenTemplate(
             template,
-            {'audio_src_a': audioFileA, 'audio_src_b': audioFileB});
+            {
+                'audio_src_a': audioFiles.audio_src_a,
+                'audio_src_b': audioFiles.audio_src_b
+            });
         
         const labScreen = new lab.html.Form({
             content: populatedTemplate
@@ -50,8 +49,7 @@ return {
 
         labScreen.on('end', () => {
             document.removeEventListener('keypress', playListener);
-        })
-        
+        });
 
         return labScreen;
     }
