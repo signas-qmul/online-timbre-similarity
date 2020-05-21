@@ -3,11 +3,15 @@
 <p><%dissimilarity_instructions%></p>
 </div>
 
-<audio src="audio/<%audio_src%>" style="display: none"></audio>
+<audio src="audio/<%audio_src_a%>" style="display: none" id="audio_a"></audio>
+<audio src="audio/<%audio_src_b%>" style="display: none" id="audio_b"></audio>
 
 <div>
 <form id="dissimilarity_form">
     <input type="number" id="dissimilarity_rating" style="width: 5em" autofocus>
+    <input type="hidden" id="audio_a_file" value="<%audio_src_a%>">
+    <input type="hidden" id="audio_b_file" value="<%audio_src_b%>">
+    <input type="submit" style="display: none" />
 </form>
 </div>
 

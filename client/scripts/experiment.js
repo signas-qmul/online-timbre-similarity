@@ -9,48 +9,21 @@ requirejs.config({
     }
 });
 
-define(['lab'], function(lab) {
-async function loadResourceFiles(fileNames, path, extension) {
-    const fileBodies = {};
-    for (const fileName of fileNames) {
-        const fileData = await fetch(`${path}/${fileName}.${extension}`);
-        const fileText = extension ===
-            'json' ? await fileData.json() : await fileData.text();
-        fileBodies[fileName] = fileText;
-    }
-    return fileBodies;
-}
-
-async function loadTemplates(templateNames) {
-    return loadResourceFiles(templateNames, 'templates', 'html');
-}
-
-async function loadScreenText(screenNames) {
-    return loadResourceFiles(screenNames, 'screen_text', 'json');
-}
-
-function populateScreenTemplate(template, screenText) {
-    let outputTemplate = template;
-    for (const textIdentifier in screenText) {
-        outputTemplate = outputTemplate.replace(
-            `<%${textIdentifier}%>`,
-            screenText[textIdentifier]);
-    }
-    return outputTemplate;
-}
-
+define(['lab', 'templating', 'screens'], function(lab, templating, screens) {
 async function get() {
     const experimentScreens = ['dissimilarity_rating'];
-    const templates = await loadTemplates(experimentScreens);
-    const screenText = await loadScreenText(experimentScreens);
+    const templates = await templating.loadTemplates(experimentScreens);
+    const screenText = await templating.loadScreenText(experimentScreens);
 
-    const text = new lab.html.Screen({
-        content: populateScreenTemplate(
+    const dissimilarityScreen = screens.dissimilarityScreen(
+        templating.populateScreenTemplate(
             templates.dissimilarity_rating,
             screenText.dissimilarity_rating),
-    })
+        ["vocal_synthetic_003-091-025.wav",
+            "bass_electronic_018-024-100.wav"]);
+
     const experiment = new lab.flow.Sequence({
-        content: [text],
+        content: [dissimilarityScreen],
     });
     return experiment;
 }
