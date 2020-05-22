@@ -44,7 +44,6 @@ return {
 
             const numberBox = document.getElementById('dissimilarity_rating');
             numberBox.focus();
-            numberBox.onblur = () => { numberBox.focus(); };
         });
 
         labScreen.on('end', () => {
@@ -52,6 +51,15 @@ return {
         });
 
         return labScreen;
-    }
+    },
+    textScreen: template => {
+        const labScreen = new lab.html.Screen({
+            content: template,
+            responses: {
+                keypress: 'confirm'
+            }
+        });
+        return labScreen;
+    },
 };
 });

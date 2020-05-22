@@ -2,6 +2,8 @@ define([], function() {
 async function loadResourceFiles(fileNames, path, extension) {
     const fileBodies = {};
     for (const fileName of fileNames) {
+        if (fileName in fileBodies) continue;
+
         const fileData = await fetch(`${path}/${fileName}.${extension}`);
         const fileText = extension ===
             'json' ? await fileData.json() : await fileData.text();
@@ -29,5 +31,17 @@ function populateScreenTemplate(template, screenText) {
     return outputTemplate;
 }
 
-return {populateScreenTemplate, loadScreenText, loadTemplates};
+async function getSectionScreenTemplates(screens) {
+    const templates = await loadTemplates(Object.values(screens));
+    const screenText = await loadScreenText(Object.keys(screens));
+    const populatedTemplates = {};
+    for (const screen in screens) {
+        populatedTemplates[screen] = populateScreenTemplate(
+            templates[screens[screen]],
+            screenText[screen]);
+    }
+    return populatedTemplates;
+}
+
+return {populateScreenTemplate, getSectionScreenTemplates};
 });

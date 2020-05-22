@@ -9,20 +9,14 @@ requirejs.config({
     }
 });
 
-define(['lab', 'templating', 'sections', 'screens'], function(lab, templating, sections, screens) {
+define(['lab', 'sections'], function(lab, sections) {
 async function get() {
     const experimentSpecReq = await fetch('api/get-experiment-spec');
     const experimentSpec = await experimentSpecReq.json();
 
-    const experimentScreens = ['dissimilarity_rating'];
-    const templates = await templating.loadTemplates(experimentScreens);
-    const screenText = await templating.loadScreenText(experimentScreens);
-
-    const dissimilaritySection = sections.dissimilarityInnerBlock(
-        templating.populateScreenTemplate(
-            templates.dissimilarity_rating,
-            screenText.dissimilarity_rating),
-        experimentSpec.trials);
+    const dissimilaritySection = await sections.dissimilarityBlock(
+        experimentSpec.trials,
+        5);
 
     const experiment = new lab.flow.Sequence({
         content: [dissimilaritySection],

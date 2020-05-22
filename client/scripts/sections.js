@@ -9,17 +9,51 @@ requirejs.config({
     }
 });
 
-define(['lab', 'screens'], function(lab, screens) {
+define(['lab', 'templating', 'screens'], function(lab, templating, screens) {
 function dissimilarityInnerBlock(template, audioFilePairs) {
+
     const block = new lab.flow.Loop({
-        template: screens.dissimilarityScreen.bind(undefined, template),
+        template: screens.dissimilarityScreen.bind(
+            undefined,
+            template),
         templateParameters: audioFilePairs
     });
     return block;
 }
 
-function dissimilarityOuterBlock(template, audioFilePairs) {
+async function dissimilarityBlock(audioFilePairs, pairsPerTrial) {
+    pairsPerTrial = pairsPerTrial || 100;
+
+    const sectionScreenTemplates = {
+        dissimilarity_rating: 'dissimilarity_rating',
+        dissimilarity_break: 'text_screen'
+    };
+
+    const templates =
+        await templating.getSectionScreenTemplates(sectionScreenTemplates);
+
+    const blockScreens = [];
+    const numberOfInnerBlocks =
+        Math.ceil(audioFilePairs.length / pairsPerTrial);
+    for (let i = 0; i < numberOfInnerBlocks; i++) {
+        const innerBlockAudioPairs =
+            audioFilePairs.slice(i * pairsPerTrial, (i + 1) * pairsPerTrial);
+        const thisInnerBlock = dissimilarityInnerBlock(
+            templates.dissimilarity_rating,
+            innerBlockAudioPairs);
+        blockScreens.push(thisInnerBlock);
+
+        if (i < numberOfInnerBlocks - 1) {
+            const breakScreen =
+                screens.textScreen(templates.dissimilarity_break);
+            blockScreens.push(breakScreen);
+        }
+    }
+    const block = new lab.flow.Sequence({
+        content: blockScreens
+    });
+    return block;
 }
 
-return {dissimilarityInnerBlock, dissimilarityOuterBlock};
+return {dissimilarityInnerBlock, dissimilarityBlock};
 });
