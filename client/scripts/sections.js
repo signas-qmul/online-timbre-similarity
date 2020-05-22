@@ -65,5 +65,22 @@ async function dissimilarityBlock(audioFilePairs, pairsPerTrial) {
     return block;
 }
 
-return {headphoneCheck, dissimilarityInnerBlock, dissimilarityBlock};
+async function questionnaire() {
+    const sectionScreenTemplates = {
+        questionnaire: 'questionnaire',
+    };
+    const templates =
+        await templating.getSectionScreenTemplates(sectionScreenTemplates);
+    
+    console.log(templates);
+    const questionnaireScreen = screens.questionnaire(templates.questionnaire);
+    return questionnaireScreen;
+}
+
+return {
+    headphoneCheck,
+    dissimilarityInnerBlock,
+    dissimilarityBlock,
+    questionnaire
+};
 });

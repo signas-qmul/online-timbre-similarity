@@ -86,5 +86,11 @@ return {
         });
         return labScreen;
     },
+    questionnaire: template => {
+        const labScreen = new lab.html.Form({
+            content: template,
+        });
+        return labScreen;
+    }
 };
 });
