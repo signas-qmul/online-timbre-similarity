@@ -10,6 +10,16 @@ requirejs.config({
 });
 
 define(['lab', 'templating', 'screens'], function(lab, templating, screens) {
+async function headphoneCheck() {
+    const sectionScreenTemplates = {
+        headphone_check: 'headphone_check',
+    }
+    const templates =
+        await templating.getSectionScreenTemplates(sectionScreenTemplates);
+    const headphoneScreen = screens.headphoneCheck(templates.headphone_check);
+    return headphoneScreen;
+}
+
 function dissimilarityInnerBlock(template, audioFilePairs) {
 
     const block = new lab.flow.Loop({
@@ -55,5 +65,5 @@ async function dissimilarityBlock(audioFilePairs, pairsPerTrial) {
     return block;
 }
 
-return {dissimilarityInnerBlock, dissimilarityBlock};
+return {headphoneCheck, dissimilarityInnerBlock, dissimilarityBlock};
 });

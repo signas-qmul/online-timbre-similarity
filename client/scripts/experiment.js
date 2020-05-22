@@ -14,12 +14,13 @@ async function get() {
     const experimentSpecReq = await fetch('api/get-experiment-spec');
     const experimentSpec = await experimentSpecReq.json();
 
+    const headphoneCheckSection = await sections.headphoneCheck();
     const dissimilaritySection = await sections.dissimilarityBlock(
         experimentSpec.trials,
-        5);
+        100);
 
     const experiment = new lab.flow.Sequence({
-        content: [dissimilaritySection],
+        content: [headphoneCheckSection, dissimilaritySection],
     });
     return experiment;
 }

@@ -2,14 +2,18 @@ requirejs.config({
     shim: {
         lab: {
             exports: 'lab'
+        },
+        HeadphoneCheck: {
+            exports: 'HeadphoneCheck'
         }
     },
     paths: {
-        lab: '../lib/lab'
+        lab: '../lib/lab',
+        HeadphoneCheck: '../lib/HeadphoneCheck'
     }
 });
 
-define(['lab', 'templating'], function(lab, templating) {
+define(['lab', 'templating', 'HeadphoneCheck'], function(lab, templating, HeadphoneCheck) {
 return {
     dissimilarityScreen: (template, audioFiles) => {
         const populatedTemplate = templating.populateScreenTemplate(
@@ -58,6 +62,25 @@ return {
             responses: {
                 keypress: 'confirm'
             }
+        });
+        return labScreen;
+    },
+    headphoneCheck: template => {
+        const labScreen = new lab.html.Screen({
+            content: template,
+        });
+        labScreen.on('run', () => {
+            HeadphoneCheck.runHeadphoneCheck({totalTrials: 1});
+            $(document).on('hcHeadphoneCheckEnd', (event, data) => {
+                if (data.didPass) {
+                    labScreen.end();
+                } else {
+                    $('<div/>', {
+                        class: 'hc-calibration-instruction',
+                        html: 'You must be wearing headphones to participate. The experiment will now terminate.<br/><b>Please close your browser window.</b>'
+                    }).appendTo($('#hc-container'));
+                }
+            });
         });
         return labScreen;
     },
