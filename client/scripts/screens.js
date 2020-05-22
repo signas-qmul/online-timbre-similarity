@@ -77,7 +77,9 @@ return {
                 } else {
                     $('<div/>', {
                         class: 'hc-calibration-instruction',
-                        html: 'You must be wearing headphones to participate. The experiment will now terminate.<br/><b>Please close your browser window.</b>'
+                        html: 'You must be wearing headphones to participate.' +
+                            ' The experiment will now terminate.<br/><b>' +
+                            'Please close your browser window.</b>',
                     }).appendTo($('#hc-container'));
                 }
             });
