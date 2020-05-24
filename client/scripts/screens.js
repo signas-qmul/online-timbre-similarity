@@ -59,9 +59,26 @@ return {
     textScreen: template => {
         const labScreen = new lab.html.Screen({
             content: template,
-            responses: {
-                keypress: 'confirm'
-            }
+        });
+        let continueListener;
+        labScreen.on('run', () => {
+            const continueButton = document.getElementById('continue');
+            continueListener = continueButton.addEventListener(
+                'click',
+                event => {
+                    labScreen.end();
+                }
+            );
+        });
+        labScreen.on('end', () => {
+            const continueButton = document.getElementById('continue');
+            continueButton.removeEventListener('click', continueListener);
+        });
+        return labScreen;
+    },
+    textScreenNoContinue: template => {
+        const labScreen = new lab.html.Screen({
+            content: template,
         });
         return labScreen;
     },

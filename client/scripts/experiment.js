@@ -15,6 +15,7 @@ async function get() {
     const experimentSpec = await experimentSpecReq.json();
     console.log(experimentSpec);
 
+    const welcomeSection = await sections.welcomeScreens();
     const headphoneCheckSection = await sections.headphoneCheck();
     const auditionFiles = await sections.auditionFiles(experimentSpec.files);
     const dissimilarityPracticeSection =
@@ -24,16 +25,22 @@ async function get() {
         experimentSpec.trials,
         100);
     const questionnaireSection = await sections.questionnaire();
+    const experimentCompleteSection = await sections.experimentComplete();
 
     const experiment = new lab.flow.Sequence({
         content: [
+            welcomeSection,
             headphoneCheckSection,
             auditionFiles,
             dissimilarityPracticeSection,
             dissimilaritySection,
-            questionnaireSection],
+            questionnaireSection,
+            experimentCompleteSection],
     });
-    return experiment;
+    const fullSequence = new lab.flow.Sequence({
+        content: [experiment, experimentCompleteSection]
+    });
+    return {fullSequence, experiment};
 }
 return {get};
 });
