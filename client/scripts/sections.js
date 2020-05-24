@@ -53,12 +53,13 @@ async function auditionFiles(audioFiles) {
     return auditionScreen;
 }
 
-function dissimilarityInnerBlock(template, audioFilePairs) {
+function dissimilarityInnerBlock(template, screenName, audioFilePairs) {
 
     const block = new lab.flow.Loop({
         template: screens.dissimilarityScreen.bind(
             undefined,
-            template),
+            template,
+            screenName),
         templateParameters: audioFilePairs
     });
     return block;
@@ -74,6 +75,7 @@ async function dissimilarityPracticeBlock(audioFilePairs) {
     
     const practiceBlock = dissimilarityInnerBlock(
         templates.dissimilarity_rating,
+        'practice_dissimilarity',
         audioFilePairs);
     const explanation = screens.textScreen(templates.practice_explanation);
     const block = new lab.flow.Sequence({
@@ -106,6 +108,7 @@ async function dissimilarityBlock(audioFilePairs, pairsPerTrial) {
             audioFilePairs.slice(i * pairsPerTrial, (i + 1) * pairsPerTrial);
         const thisInnerBlock = dissimilarityInnerBlock(
             templates.dissimilarity_rating,
+            'dissimilarity',
             innerBlockAudioPairs);
         blockScreens.push(thisInnerBlock);
 

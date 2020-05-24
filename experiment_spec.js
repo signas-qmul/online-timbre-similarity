@@ -1,4 +1,11 @@
+const crypto = require('crypto');
 const fs = require('fs');
+
+function makeSpecHash() {
+    const date = new Date();
+    const hash = crypto.createHash('md5').update(date.toString()).digest('hex');
+    return hash;
+}
 
 function makePracticeTrials() {
     const practiceTrials = [
@@ -69,6 +76,7 @@ function makeTrials(files) {
 function create() {
     const files = listAudioFiles();
     const spec = {
+        specId: makeSpecHash(),
         practiceTrials: makePracticeTrials(),
         trials: makeTrials(files),
         files: shuffleList(files)

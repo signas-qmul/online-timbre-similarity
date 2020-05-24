@@ -1,8 +1,10 @@
 const express = require('express');
+const body_parser = require('body-parser');
 const mongodb = require('mongodb');
 const experiment_spec = require('./experiment_spec');
 
 const app = express();
+app.use(body_parser.json());
 app.use(express.static('client'));
 
 console.log(process.env.NODE_ENV);
@@ -16,4 +18,9 @@ app.get('/api/get-experiment-spec', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.end(JSON.stringify(spec));
+});
+
+app.post('/api/store-experiment-data', function(req, res) {
+    console.log(req.body);
+    res.sendStatus(200);
 });

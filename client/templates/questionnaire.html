@@ -7,7 +7,7 @@
                     <h4><%age_label%></h4>
                 </td>
                 <td>
-                    <input type="number" name="age" id="age" style="width: 4em">
+                    <input type="number" name="age" id="age" style="width: 4em" required>
                 </td>
             </tr>
             <tr>
@@ -15,7 +15,7 @@
                     <h4><%gender_label%></h4>
                 </td>
                 <td>
-                    <select name="gender" id="gender">
+                    <select name="gender" id="gender" required>
                         <option value="female">Female</option>
                         <option value="male">Male</option>
                         <option value="other">Other</option>
@@ -27,7 +27,7 @@
                     <h4><%instrument_years_label%></h4>
                 </td>
                 <td>
-                    <input type="number" name="instrument_years" id="instrument_years" style="width: 4em">
+                    <input type="number" name="instrument_years" id="instrument_years" style="width: 4em" required>
                 </td>
             </tr>
             <tr>
@@ -35,7 +35,7 @@
                     <h4><%primary_instrument_label%></h4>
                 </td>
                 <td>
-                    <input type="text" name="primary_instrument" id="primary_instrument">
+                    <input type="text" name="primary_instrument" id="primary_instrument" required>
                 </td>
             </tr>
             <tr>
@@ -44,11 +44,11 @@
                 </td>
                 <td>
                     <label>
-                        <input type="radio" name="hearing_issue" id="hearing_issue" value="yes">
+                        <input type="radio" name="hearing_issue" id="hearing_issue" value="yes" required>
                         Yes
                     </label>
                     <label>
-                        <input type="radio" name="hearing_issue" id="hearing_issue" value="no">
+                        <input type="radio" name="hearing_issue" id="hearing_issue" value="no" required>
                         No
                     </label>
                 </td>

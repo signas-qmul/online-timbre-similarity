@@ -15,7 +15,7 @@ requirejs.config({
 
 define(['lab', 'templating', 'HeadphoneCheck'], function(lab, templating, HeadphoneCheck) {
 return {
-    dissimilarityScreen: (template, audioFiles) => {
+    dissimilarityScreen: (template, screenName, audioFiles) => {
         const populatedTemplate = templating.populateScreenTemplate(
             template,
             {
@@ -24,7 +24,8 @@ return {
             });
         
         const labScreen = new lab.html.Form({
-            content: populatedTemplate
+            content: populatedTemplate,
+            title: screenName
         });
 
         let playing = false;
@@ -106,6 +107,7 @@ return {
     questionnaire: template => {
         const labScreen = new lab.html.Form({
             content: template,
+            title: 'questionnaire'
         });
         return labScreen;
     },
