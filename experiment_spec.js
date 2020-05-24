@@ -1,5 +1,23 @@
 const fs = require('fs');
 
+function makePracticeTrials() {
+    const practiceTrials = [
+        {
+            audio_src_a: '22.wav',
+            audio_src_b: '23.wav'
+        },
+        {
+            audio_src_a: '23.wav',
+            audio_src_b: '24.wav'
+        },
+        {
+            audio_src_a: '22.wav',
+            audio_src_b: '24.wav'
+        }
+    ];
+    return practiceTrials;
+}
+
 function listAudioFiles() {
     const files = fs.readdirSync('client/audio');
     for (const file of files) {
@@ -35,8 +53,7 @@ function shuffleList(list) {
     return outList;
 }
 
-function makeTrials() {
-    const files = listAudioFiles();
+function makeTrials(files) {
     const filePairs = makeAllPairs(files);
     const shuffledPairs = shuffleList(filePairs);
     const trials = [];
@@ -50,9 +67,12 @@ function makeTrials() {
 }
 
 function create() {
-    const spec = {};
-    const trials = makeTrials();
-    spec.trials = trials;
+    const files = listAudioFiles();
+    const spec = {
+        practiceTrials: makePracticeTrials(),
+        trials: makeTrials(files),
+        files: shuffleList(files)
+    };
     return spec;
 }
 

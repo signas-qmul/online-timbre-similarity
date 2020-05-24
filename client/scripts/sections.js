@@ -20,6 +20,18 @@ async function headphoneCheck() {
     return headphoneScreen;
 }
 
+async function auditionFiles(audioFiles) {
+    const sectionScreenTemplates = {
+        audition_files: 'audition_files',
+    }
+    const templates =
+        await templating.getSectionScreenTemplates(sectionScreenTemplates);
+    const auditionScreen = screens.auditionFiles(
+        templates.audition_files,
+        audioFiles);
+    return auditionScreen;
+}
+
 function dissimilarityInnerBlock(template, audioFilePairs) {
 
     const block = new lab.flow.Loop({
@@ -28,6 +40,20 @@ function dissimilarityInnerBlock(template, audioFilePairs) {
             template),
         templateParameters: audioFilePairs
     });
+    return block;
+}
+
+async function dissimilarityPracticeBlock(audioFilePairs) {
+    const sectionScreenTemplates = {
+        dissimilarity_rating: 'dissimilarity_rating',
+    };
+    const templates =
+        await templating.getSectionScreenTemplates(sectionScreenTemplates);
+    
+    const block = dissimilarityInnerBlock(
+        templates.dissimilarity_rating,
+        audioFilePairs);
+    
     return block;
 }
 
@@ -72,14 +98,15 @@ async function questionnaire() {
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
     
-    console.log(templates);
     const questionnaireScreen = screens.questionnaire(templates.questionnaire);
     return questionnaireScreen;
 }
 
 return {
+    auditionFiles,
     headphoneCheck,
     dissimilarityInnerBlock,
+    dissimilarityPracticeBlock,
     dissimilarityBlock,
     questionnaire
 };

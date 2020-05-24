@@ -91,6 +91,46 @@ return {
             content: template,
         });
         return labScreen;
+    },
+    auditionFiles: (template, audioFiles) => {
+        const labScreen = new lab.html.Screen({
+            content: template,
+        });
+
+        let playListener;
+        let continueListener;
+        labScreen.on('run', () => {
+            const playButton = document.getElementById('play-audio');
+            const continueButton = document.getElementById('continue');
+            playListener = playButton.addEventListener('click', event => {
+                const player = new Audio();
+                let fileIndex = 0;
+                const playAudio = () => {
+                    if (fileIndex < audioFiles.length) {
+                        player.src = "audio/" + audioFiles[fileIndex];
+                        player.play();
+                        fileIndex += 1;
+                    } else {
+                        playButton.disabled = true;
+                        continueButton.disabled = false;
+                    }
+                }
+                player.onended = playAudio;
+                playAudio();
+            });
+
+            continueListener = continueButton.addEventListener('click', event =>
+            {
+                labScreen.end();
+            })
+        });
+        labScreen.on('end', () => {
+            const playButton = document.getElementById('play-audio');
+            const continueButton = document.getElementById('play-audio');
+            playButton.removeEventListener('click', playListener);
+            continueButton.removeEventListener('click', continueListener);
+        });
+        return labScreen;
     }
 };
 });
