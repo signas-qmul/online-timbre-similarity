@@ -31,11 +31,18 @@ return {
         let playing = false;
         const playAudio = function() {
             playing = true;
-            const playerA = document.getElementById("audio_a");
-            const playerB = document.getElementById("audio_b");
+            const dissimilarityBox =
+                document.getElementById('dissimilarity_rating');
+            const playerA = document.getElementById('audio_a');
+            const playerB = document.getElementById('audio_b');
             playerA.onended = () => { playerB.play() };
-            playerB.onended = () => { playing = false; }
+            playerB.onended = () => { 
+                playing = false; 
+                dissimilarityBox.disabled = false;
+                dissimilarityBox.focus();
+            }
             playerA.play();
+            dissimilarityBox.disabled = true;
         }
 
         let playListener;
