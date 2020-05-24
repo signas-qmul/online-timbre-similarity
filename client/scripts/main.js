@@ -6,7 +6,11 @@ requirejs(
         const stopButton = document.getElementById('stop-button');
         stopButton.addEventListener('click', event => {
             const cancel = confirm("Are you sure you want to stop the experiment?")
-            if (cancel) experiment.end();
+            if (cancel) {
+                experiment.cancelled = true;
+                experiment.end();
+            }
+
             stopButton.blur();
         });
         fullSequence.run();
