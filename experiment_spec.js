@@ -3,7 +3,11 @@ const fs = require('fs');
 
 function makeSpecHash() {
     const date = new Date();
-    const hash = crypto.createHash('md5').update(date.toString()).digest('hex');
+    const random = Math.random();
+    const hash = crypto
+        .createHash('md5')
+        .update(date.toString() + random.toString())
+        .digest('hex');
     return hash;
 }
 
