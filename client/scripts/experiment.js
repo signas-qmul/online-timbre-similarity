@@ -30,12 +30,12 @@ async function get() {
     const dataStore = new lab.data.Store();
     const experiment = new lab.flow.Sequence({
         content: [
-            // welcomeSection,
-            // headphoneCheckSection,
-            // auditionFiles,
-            // dissimilarityPracticeSection,
+            welcomeSection,
+            headphoneCheckSection,
+            auditionFiles,
+            dissimilarityPracticeSection,
             dissimilaritySection,
-            // questionnaireSection
+            questionnaireSection
         ],
     });
     const fullSequence = new lab.flow.Sequence({
