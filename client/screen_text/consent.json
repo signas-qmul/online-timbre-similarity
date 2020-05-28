@@ -1,3 +1,27 @@
 {
-    "text_body": "<p>By progressing past this screen, you give your consent that your responses to this study may be used ...</p>"
+    "consent_header": [
+        "If you are willing to participate in this study, please select the ",
+        "appropriate responses using the form below."
+    ],
+    "consent_text": [
+        "You will be given a copy of this consent form to keep and refer to ",
+        "at any time."
+    ],
+    "consent_q1": [
+        "I agree that the research project named above has been explained to ",
+        "me to my satisfaction in verbal and/or written form"
+    ],
+    "consent_q2": [
+        "I understand that if I decide at any other time during the research ",
+        "that I no longer wish to participate in this project, I can notify ",
+        "the researchers involved and be withdrawn from it immediately"
+    ],
+    "consent_q3": [
+        "I have read both the notes written above and the Information Sheet ",
+        "about the project, and understand what the research study involves"
+    ],
+    "consent_q4": [
+        "I agree to take part in the study, which will include use of my ",
+        "personal data"
+    ]
 }

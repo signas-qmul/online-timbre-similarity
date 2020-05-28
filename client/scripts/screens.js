@@ -123,6 +123,13 @@ return {
         });
         return labScreen;
     },
+    consentForm: template => {
+        const labScreen = new lab.html.Form({
+            content: template,
+            title: 'consent_form'
+        });
+        return labScreen;
+    },
     auditionFiles: (template, audioFiles) => {
         const labScreen = new lab.html.Screen({
             content: template,
