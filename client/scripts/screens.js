@@ -35,7 +35,12 @@ return {
                 document.getElementById('dissimilarity_rating');
             const playerA = document.getElementById('audio_a');
             const playerB = document.getElementById('audio_b');
-            playerA.onended = () => { playerB.play() };
+            playerA.onended = () => { 
+                setTimeout(() => {
+                    playerB.play()
+                },
+                500);
+            };
             playerB.onended = () => { 
                 playing = false; 
                 dissimilarityBox.disabled = false;
