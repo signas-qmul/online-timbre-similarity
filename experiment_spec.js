@@ -14,16 +14,16 @@ function makeSpecHash() {
 function makePracticeTrials() {
     const practiceTrials = [
         {
-            audio_src_a: '22.wav',
-            audio_src_b: '23.wav'
+            audio_src_a: 'Acid_A2_MDS.wav',
+            audio_src_b: 'Bowedpad_A3_MDS.wav'
         },
         {
-            audio_src_a: '23.wav',
-            audio_src_b: '24.wav'
+            audio_src_a: 'Cello_A3_MDS.wav',
+            audio_src_b: 'Clarinet_A3_MDS.wav'
         },
         {
-            audio_src_a: '22.wav',
-            audio_src_b: '24.wav'
+            audio_src_a: 'epiano_A3_MDS.wav',
+            audio_src_b: 'Farfisa_A3_MDS.wav'
         }
     ];
     return practiceTrials;
