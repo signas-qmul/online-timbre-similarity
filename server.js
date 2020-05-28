@@ -2,6 +2,7 @@ const express = require('express');
 const body_parser = require('body-parser');
 const mongodb = require('mongodb');
 const experiment_spec = require('./experiment_spec');
+const consent_pdf = require('./consent_pdf');
 
 const QUESTIONNAIRE_COLLECTION = 'questionnaire_responses';
 const PRACTICE_COLLECTION = 'practice_dissimilarity_responses';
@@ -105,6 +106,14 @@ app.get('/data/questionnaire_responses.csv', function(req, res) {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.end(csv_string);
         });
+});
+
+app.get('/pdf/consent_form.pdf', function(req, res) {
+    consent_pdf.createCompletedConsentForm().then(output_pdf => {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.end(Buffer.from(output_pdf, 'binary'));
+    });
 });
 
 app.post('/api/store-experiment-data', function(req, res) {
