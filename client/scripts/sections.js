@@ -50,14 +50,17 @@ async function headphoneCheck() {
     const sectionScreenTemplates = {
         headphone_explanation: 'text_screen',
         headphone_check: 'headphone_check',
+        headphone_complete: 'text_screen',
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
     const headphoneExplanation =
         screens.textScreen(templates.headphone_explanation);
     const headphoneScreen = screens.headphoneCheck(templates.headphone_check);
+    const headphoneComplete =
+        screens.textScreen(templates.headphone_complete);
     const block = new lab.flow.Sequence({
-        content: [headphoneExplanation, headphoneScreen],
+        content: [headphoneExplanation, headphoneScreen, headphoneComplete],
     });
     return block;
 }
