@@ -1,11 +1,13 @@
 {
-    "consent_header": [
-        "If you are willing to participate in this study, please select the ",
-        "appropriate responses using the form below."
-    ],
+    "consent_header": "",
     "consent_text": [
-        "You will be given a copy of this consent form to keep and refer to ",
-        "at any time."
+        "If you have any questions arising from the information on previous ",
+        "screens or explanation already given to you, please ask the ",
+        "researcher before you decide whether to join in. You will be given a ",
+        "copy of the Information Sheet and this Consent Form to keep and refer ",
+        "to at any time. If you are willing to participate in this study, ",
+        "please indicate your response to the below statements and a signed ",
+        "and dated declaration will be generated for you."
     ],
     "consent_q1": [
         "I agree that the research project named above has been explained to ",

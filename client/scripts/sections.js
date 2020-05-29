@@ -19,6 +19,7 @@ async function welcomeScreens() {
         info_3: 'text_screen',
         info_4: 'text_screen',
         consent: 'consent_form',
+        consent_failure: 'text_screen_no_continue',
         description: 'text_screen',
     };
     const templates =
@@ -28,9 +29,13 @@ async function welcomeScreens() {
     for (const template in templates) {
         let screen;
         if (sectionScreenTemplates[template] === 'consent_form') {
-            screen = screens.consentForm(templates[template]);
+            screen = screens.consentForm(
+                templates[template],
+                templates.consent_failure);
         } else if (sectionScreenTemplates[template] === 'text_screen') {
             screen = screens.textScreen(templates[template]);
+        } else if (template === 'consent_failure') {
+            continue;
         }
         createdScreens.push(screen);
     }
