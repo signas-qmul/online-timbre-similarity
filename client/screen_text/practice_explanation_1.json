@@ -1,0 +1,20 @@
+{
+    "text_body": [
+        "<h4>Instructions</h4>",
+        "<p>We want you to indicate the perceived timbral dissimilarity ",
+        "(ignoring differences in pitch and loudness) within each presented ",
+        "pair by freely typing in a number of your choice. The larger the ",
+        "number the larger the distance and vice versa. </p>",
+        "The only prerequisite is to rate identical pairs with 0 (i.e., zero ",
+        "dissimilarity). The choice of scale (whether it is 0-10, 0-100 ",
+        "or anything else) is entirely up to you and does not matter as long ",
+        "as you do not decide to change it in the middle of the experiment.",
+        "</p>",
+        "<p>This does not mean that you can not adjust your upper limit ",
+        "slightly if necessary. For example, a rating of 11 or 12 in a ",
+        "predefined (in your mind) 0-10 scale is fine if you think that a ",
+        "pair which received a 10 previously was less dissimilar. The reason ",
+        "why the scale’s upper limit is unbounded is exactly to allow for ",
+        "such flexibility.</p>"
+    ]
+}

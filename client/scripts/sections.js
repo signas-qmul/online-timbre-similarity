@@ -67,14 +67,21 @@ async function headphoneCheck() {
 
 async function auditionFiles(audioFiles) {
     const sectionScreenTemplates = {
+        audition_explanation: 'text_screen',
         audition_files: 'audition_files',
     }
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
+    const auditionExplanation =
+        screens.textScreen(templates.audition_explanation);
     const auditionScreen = screens.auditionFiles(
         templates.audition_files,
         audioFiles);
-    return auditionScreen;
+
+    const block = new lab.flow.Sequence({
+        content: [auditionExplanation, auditionScreen],
+    })
+    return block;
 }
 
 function dissimilarityInnerBlock(template, screenName, audioFilePairs) {
@@ -91,19 +98,21 @@ function dissimilarityInnerBlock(template, screenName, audioFilePairs) {
 
 async function dissimilarityPracticeBlock(audioFilePairs) {
     const sectionScreenTemplates = {
+        practice_explanation_1: 'text_screen',
+        practice_explanation_2: 'text_screen',
         dissimilarity_rating: 'dissimilarity_rating',
-        practice_explanation: 'text_screen'
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
     
+    const explanation1 = screens.textScreen(templates.practice_explanation_1);
+    const explanation2 = screens.textScreen(templates.practice_explanation_2);
     const practiceBlock = dissimilarityInnerBlock(
         templates.dissimilarity_rating,
         'practice_dissimilarity',
         audioFilePairs);
-    const explanation = screens.textScreen(templates.practice_explanation);
     const block = new lab.flow.Sequence({
-        content: [explanation, practiceBlock],
+        content: [explanation1, explanation2, practiceBlock],
     });
     
     return block;

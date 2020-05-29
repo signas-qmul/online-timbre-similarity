@@ -1,3 +1,7 @@
 {
-    "text_body": "<p>It is now time to begin the experiment. Ensure you are comfortable and, when you are ready, please click <em>Continue</em> to begin.</p>"
+    "text_body": [
+        "<p>The practice section is now complete.</p>",
+        "<p>When you are ready, you may click <em>Continue</em> to begin ",
+        "the experiment.</p>"
+    ]
 }
