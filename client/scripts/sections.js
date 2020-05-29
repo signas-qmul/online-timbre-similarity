@@ -21,7 +21,6 @@ async function welcomeScreens() {
         consent: 'consent_form',
         consent_failure: 'text_screen_no_continue',
         pdf_download: 'text_screen',
-        description: 'text_screen',
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
