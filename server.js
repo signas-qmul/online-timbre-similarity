@@ -109,9 +109,19 @@ app.get('/data/questionnaire_responses.csv', function(req, res) {
 });
 
 app.get('/pdf/consent_form.pdf', function(req, res) {
-    consent_pdf.createCompletedConsentForm().then(output_pdf => {
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    if (ip.substr(0, 7) == "::ffff:") {
+        ip = ip.substr(7);
+    }
+    const dateObject = new Date();
+    const date = dateObject.toDateString();
+
+    consent_pdf.createCompletedConsentForm(ip, date).then(output_pdf => {
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader(
+            'Content-Disposition',
+            'attachment;filename=signed_consent_form.pdf');
         res.end(Buffer.from(output_pdf, 'binary'));
     });
 });
