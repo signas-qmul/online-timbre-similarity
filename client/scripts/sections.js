@@ -12,16 +12,32 @@ requirejs.config({
 define(['lab', 'templating', 'screens'], function(lab, templating, screens) {
 async function welcomeScreens() {
     const sectionScreenTemplates = {
-        welcome: 'text_screen',
+        welcome_1: 'text_screen',
+        welcome_2: 'text_screen',
+        info_1: 'text_screen',
+        info_2: 'text_screen',
+        info_3: 'text_screen',
+        info_4: 'text_screen',
+        consent: 'consent_form',
+        consent_failure: 'text_screen_no_continue',
+        pdf_download: 'text_screen',
         description: 'text_screen',
-        consent: 'text_screen',
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
     
     const createdScreens = [];
     for (const template in templates) {
-        const screen = screens.textScreen(templates[template]);
+        let screen;
+        if (sectionScreenTemplates[template] === 'consent_form') {
+            screen = screens.consentForm(
+                templates[template],
+                templates.consent_failure);
+        } else if (sectionScreenTemplates[template] === 'text_screen') {
+            screen = screens.textScreen(templates[template]);
+        } else if (template === 'consent_failure') {
+            continue;
+        }
         createdScreens.push(screen);
     }
     const block = new lab.flow.Sequence({

@@ -23,10 +23,15 @@ async function loadScreenText(screenNames) {
 function populateScreenTemplate(template, screenText) {
     let outputTemplate = template;
     for (const textIdentifier in screenText) {
+        let replacementText = screenText[textIdentifier];
+        if (Array.isArray(replacementText)) {
+            replacementText = replacementText.join('');
+        }
+
         const regex = new RegExp(`<%${textIdentifier}%>`, 'g');
         outputTemplate = outputTemplate.replace(
             regex,
-            screenText[textIdentifier]);
+            replacementText);
     }
     return outputTemplate;
 }

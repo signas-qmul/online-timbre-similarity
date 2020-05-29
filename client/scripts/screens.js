@@ -123,6 +123,51 @@ return {
         });
         return labScreen;
     },
+    consentForm: (template, failure_template) => {
+        const labScreen = new lab.html.Form({
+            content: template,
+            title: 'consent_form'
+        });
+        const confirmScreen = new lab.html.Screen({
+            content: failure_template
+        });
+        const sequence = new lab.flow.Sequence({
+            content: [labScreen, confirmScreen],
+        })
+
+        let consent = false;
+        let submitListener;
+        labScreen.on('run', () => {
+            const submitButton = document.getElementsByName('submit')[0];
+            const form = document.forms.consent_form;
+            const explained = form.elements.explained;
+            const withdraw = form.elements.withdraw;
+            const read_notes = form.elements.read_notes;
+            const agree = form.elements.agree;
+            submitListener = submitButton.addEventListener('click', e => {
+                if (explained.value === 'yes'
+                    && withdraw.value === 'yes'
+                    && read_notes.value === 'yes'
+                    && agree.value === 'yes')
+                {
+                    consent = true;
+                }
+            });
+        });
+        labScreen.on('end', () => {
+            const submitButton = document.getElementsByName('submit')[0];
+            submitButton.removeEventListener('click', submitListener);
+        });
+        confirmScreen.on('run', () => {
+            if (consent) {
+                confirmScreen.end();
+            } else {
+                document.getElementById('stop-button').style.display = 'none';
+            }
+        });
+
+        return sequence;
+    },
     auditionFiles: (template, audioFiles) => {
         const labScreen = new lab.html.Screen({
             content: template,

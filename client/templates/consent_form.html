@@ -1,0 +1,83 @@
+<div>
+    <span><h4><%consent_header%></h4></span>
+    <span><%consent_text%></span>
+    <form id="consent_form">
+        <table>
+            <tr>
+                <td>
+                    <h4>Statement</h4>
+                </td>
+                <td style="width: 33%">
+                    <h4>Choose a response</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <%consent_q1%>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="explained" id="explained" value="yes" required>
+                        Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="explained" id="explained" value="no" required>
+                        No
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <%consent_q2%>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="withdraw" id="withdraw" value="yes" required>
+                        Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="withdraw" id="withdraw" value="no" required>
+                        No
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <%consent_q3%>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="read_notes" id="read_notes" value="yes" required>
+                        Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="read_notes" id="read_notes" value="no" required>
+                        No
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <%consent_q4%>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="agree" id="agree" value="yes" required>
+                        Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="agree" id="agree" value="no" required>
+                        No
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" name="submit">
+    </form>
+</div>
