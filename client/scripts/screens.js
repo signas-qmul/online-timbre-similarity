@@ -43,11 +43,9 @@ return {
             };
             playerB.onended = () => { 
                 playing = false; 
-                dissimilarityBox.disabled = false;
                 dissimilarityBox.focus();
             }
             playerA.play();
-            dissimilarityBox.disabled = true;
         }
 
         let playListener;
