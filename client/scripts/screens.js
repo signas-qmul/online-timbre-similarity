@@ -100,7 +100,9 @@ return {
             content: template,
         });
         labScreen.on('run', () => {
-            HeadphoneCheck.runHeadphoneCheck({});
+            HeadphoneCheck.runHeadphoneCheck({
+                trialsPerPage: 1
+            });
             $(document).on('hcHeadphoneCheckEnd', (event, data) => {
                 if (data.didPass) {
                     labScreen.end();

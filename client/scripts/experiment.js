@@ -29,6 +29,7 @@ async function get() {
 
     const experiment = new lab.flow.Sequence({
         content: [
+            headphoneCheckSection,
             welcomeSection,
             headphoneCheckSection,
             auditionFiles,

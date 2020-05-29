@@ -2,7 +2,7 @@
   display: block;
 }
 .hc-trial-div {
-  border: 5px solid black;
+  /*border: 5px solid white;*/
   display: table;
   padding: 5px;
   margin: 5px auto;
