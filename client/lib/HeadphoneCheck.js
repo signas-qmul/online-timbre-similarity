@@ -145,7 +145,7 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
     }).appendTo($('#hc-container'));
     $('<div/>', {
       class: 'hc-instruction',
-      html: '<p>Test sounds can only be played once!</p>'
+      html: '<p>Test sounds may only be played once.</p>'
     }).appendTo($('#hc-container'));
 
     if (headphoneCheckConfig.debug) console.log(headphoneCheckData);
@@ -230,7 +230,7 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
     // render boilerplate instruction text
     $('<div/>', {
       class: 'hc-calibration-instruction',
-      html: '<p>You must be wearing headphones to take part in this experiment.</p>'
+      html: '<p></p>'
     }).appendTo($('#hc-container'));
     $('<div/>', {
       class: 'hc-calibration-instruction',
@@ -338,9 +338,9 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
 
     //give the label info for the buttons
     var radioButtonInfo = [
-                            {'id': '1', 'name': ' FIRST sound was SOFTEST'},
-                            {'id': '2', 'name': ' SECOND sound was SOFTEST'},
-                            {'id': '3', 'name': ' THIRD sound was SOFTEST'},
+                            {'id': '1', 'name': ' <b>First</b> sound was softest'},
+                            {'id': '2', 'name': ' <b>Second</b> sound was softest'},
+                            {'id': '3', 'name': ' <b>Third</b> sound was softest'},
                           ];
 
     $.each(radioButtonInfo, function() {
@@ -348,7 +348,7 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
       .append($('<label/>', {
           for: 'hc-radio' + this.id + '-stim-' + stimID,
           class: 'hc-radio-label',
-          text: this.name,
+          html: this.name,
         })
       .prepend($('<input/>', {
                 type: 'radio',

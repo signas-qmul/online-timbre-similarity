@@ -48,12 +48,18 @@ async function welcomeScreens() {
 
 async function headphoneCheck() {
     const sectionScreenTemplates = {
+        headphone_explanation: 'text_screen',
         headphone_check: 'headphone_check',
-    }
+    };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
+    const headphoneExplanation =
+        screens.textScreen(templates.headphone_explanation);
     const headphoneScreen = screens.headphoneCheck(templates.headphone_check);
-    return headphoneScreen;
+    const block = new lab.flow.Sequence({
+        content: [headphoneExplanation, headphoneScreen],
+    });
+    return block;
 }
 
 async function auditionFiles(audioFiles) {
