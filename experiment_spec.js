@@ -17,6 +17,10 @@ function makePracticeTrials() {
             audio_src_a: 'Acid_A2_MDS.wav',
             audio_src_b: 'Bowedpad_A3_MDS.wav'
         },
+        {
+            audio_src_a: 'Cello_A3_MDS.wav',
+            audio_src_b: 'Cello_A3_MDS.wav'
+        },
     ];
     return practiceTrials;
 }
