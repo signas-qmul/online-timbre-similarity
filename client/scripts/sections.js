@@ -84,13 +84,19 @@ async function auditionFiles(audioFiles) {
     return block;
 }
 
-function dissimilarityInnerBlock(template, screenName, audioFilePairs) {
+function dissimilarityInnerBlock(
+    template,
+    screenName,
+    audioFilePairs,
+    practiceReminderTemplate)
+{
 
     const block = new lab.flow.Loop({
         template: screens.dissimilarityScreen.bind(
             undefined,
             template,
-            screenName),
+            screenName,
+            practiceReminderTemplate),
         templateParameters: audioFilePairs
     });
     return block;
@@ -111,30 +117,10 @@ async function dissimilarityPracticeBlock(audioFilePairs) {
     const practiceBlock = dissimilarityInnerBlock(
         templates.dissimilarity_rating,
         'practice_dissimilarity',
-        audioFilePairs);
-    const reminder = screens.textScreen(templates.practice_reminder);
+        audioFilePairs,
+        templates.practice_reminder);
     const block = new lab.flow.Sequence({
-        content: [explanation1, explanation2, practiceBlock, reminder],
-    });
-
-    reminder.on('run', () => {
-        let needsReminding = false;
-        let erroneousScore = 0;
-        for (const entry of practiceBlock.options.datastore.data) {
-            if (entry.sender === 'practice_dissimilarity') {
-                if (entry.audio_a_file === entry.audio_b_file
-                        && parseInt(entry.dissimilarity_rating) !== 0) {
-                    needsReminding = true;
-                    erroneousScore = entry.dissimilarity_rating;
-                }
-            }
-        }
-        if (!needsReminding) {
-            reminder.end();
-        } else {
-            document.getElementById('erroneous_score').innerHTML =
-                erroneousScore.toString();
-        }
+        content: [explanation1, explanation2, practiceBlock],
     });
     
     return block;
