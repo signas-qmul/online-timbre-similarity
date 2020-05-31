@@ -50,24 +50,22 @@ app.get('/api/get-experiment-spec', function(req, res) {
 
 app.get('/data/dissimilarity_scores.csv', function(req, res) {
     const cols = [
-        'spec_id',
-        'audio_a',
-        'audio_b',
+        'specId',
+        'audio_a_file',
+        'audio_b_file',
         'dissimilarity_rating',
-        'response_time'
+        'stimulus_play_count',
+        'duration'
     ];
     let csv_string = cols.join(',') + '\n';
 
     db.collection(DISSIMILARITY_COLLECTION)
         .find().toArray((err, docs) => {
             for (const row of docs) {
-                const data = [
-                    row.specId,
-                    row.audio_a_file,
-                    row.audio_b_file,
-                    row.dissimilarity_rating,
-                    row.duration
-                ];
+                const data = [];
+                for (const col of cols) {
+                    data.push(row[col]);
+                }
                 csv_string += data.join(',') + '\n';
             }
             res.setHeader('Content-Type', 'text/csv');
@@ -78,28 +76,23 @@ app.get('/data/dissimilarity_scores.csv', function(req, res) {
 
 app.get('/data/questionnaire_responses.csv', function(req, res) {
     const cols = [
-        'spec_id',
+        'specId',
         'age',
         'gender',
         'hearing_issue',
         'instrument_years',
         'primary_instrument',
-        'response_time'
+        'duration'
     ];
     let csv_string = cols.join(',') + '\n';
 
     db.collection(QUESTIONNAIRE_COLLECTION)
         .find().toArray((err, docs) => {
             for (const row of docs) {
-                const data = [
-                    row.specId,
-                    row.age,
-                    row.gender,
-                    row.hearing_issue,
-                    row.instrument_years,
-                    row.primary_instrument,
-                    row.duration
-                ];
+                const data = [];
+                for (const col of cols) {
+                    data.push(row[col]);
+                }
                 csv_string += data.join(',') + '\n';
             }
             res.setHeader('Content-Type', 'text/csv');
