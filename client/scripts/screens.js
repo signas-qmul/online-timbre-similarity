@@ -49,6 +49,7 @@ return {
         }
 
         let playListener;
+        let submitListener;
         labScreen.on('run', () => {
             playAudio();
             playListener = document.addEventListener('keypress', event => {
@@ -59,10 +60,28 @@ return {
 
             const numberBox = document.getElementById('dissimilarity_rating');
             numberBox.focus();
+
+            const submitButton = document.getElementsByName('submit_button')[0];
+            let hasPaused = false;
+
+            submitListener = submitButton.addEventListener('click', event => {
+                if (!hasPaused) {
+                    event.preventDefault();
+
+                    setTimeout(() => {
+                        hasPaused = true;
+                        submitButton.click();
+                    },
+                    650);
+                }
+            });
         });
 
         labScreen.on('end', () => {
             document.removeEventListener('keypress', playListener);
+            
+            const submitButton = document.getElementsByName('submit_button')[0];
+            submitButton.removeEventListener('click', submitListener);
         });
 
         return labScreen;
