@@ -29,21 +29,19 @@ return {
         });
 
         let playing = false;
+        let playerTimeout;
         const playAudio = function() {
             playing = true;
-            const dissimilarityBox =
-                document.getElementById('dissimilarity_rating');
             const playerA = document.getElementById('audio_a');
             const playerB = document.getElementById('audio_b');
             playerA.onended = () => { 
-                setTimeout(() => {
+                playerTimeout = setTimeout(() => {
                     playerB.play()
                 },
                 500);
             };
             playerB.onended = () => { 
                 playing = false; 
-                dissimilarityBox.focus();
             }
             playerA.play();
         }
@@ -62,17 +60,40 @@ return {
             numberBox.focus();
 
             const submitButton = document.getElementsByName('submit_button')[0];
+            let hasDelayed = false;
             let hasPaused = false;
 
             submitListener = submitButton.addEventListener('click', event => {
-                if (!hasPaused) {
+                if (!hasDelayed) {
                     event.preventDefault();
 
+                    if (numberBox.value === '') {
+                        numberBox.style.background = '#e84a5f';
+                        setTimeout(() => {
+                            numberBox.style.background = '#ffffff';
+                        },
+                        650);
+                        return;
+                    }
+
+                    numberBox.style.background = '#a8df65';
+
                     setTimeout(() => {
-                        hasPaused = true;
                         submitButton.click();
                     },
                     650);
+                    hasDelayed = true;
+                }
+                if (!hasPaused) {
+                    const audioPlayerA = document.getElementById('audio_a');
+                    const audioPlayerB = document.getElementById('audio_b');
+
+                    audioPlayerA.onended = undefined;
+                    audioPlayerB.onended = undefined;
+                    clearTimeout(playerTimeout);
+                    audioPlayerA.pause(); 
+                    audioPlayerB.pause(); 
+                    hasPaused = true;
                 }
             });
         });
