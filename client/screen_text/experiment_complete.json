@@ -1,3 +1,7 @@
 {
-    "text_body": "The experiment is over. You may now close your browser window."
+    "text_body": [
+        "<p>Thank you for your participation.</p>",
+        "<p>The experiment is now complete. You may now safely close your ",
+        "browser window.</p>"
+    ]
 }
