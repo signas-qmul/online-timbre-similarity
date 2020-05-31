@@ -101,6 +101,7 @@ async function dissimilarityPracticeBlock(audioFilePairs) {
         practice_explanation_1: 'text_screen',
         practice_explanation_2: 'text_screen',
         dissimilarity_rating: 'dissimilarity_rating',
+        practice_reminder: 'text_screen'
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
@@ -111,8 +112,29 @@ async function dissimilarityPracticeBlock(audioFilePairs) {
         templates.dissimilarity_rating,
         'practice_dissimilarity',
         audioFilePairs);
+    const reminder = screens.textScreen(templates.practice_reminder);
     const block = new lab.flow.Sequence({
-        content: [explanation1, explanation2, practiceBlock],
+        content: [explanation1, explanation2, practiceBlock, reminder],
+    });
+
+    reminder.on('run', () => {
+        let needsReminding = false;
+        let erroneousScore = 0;
+        for (const entry of practiceBlock.options.datastore.data) {
+            if (entry.sender === 'practice_dissimilarity') {
+                if (entry.audio_a_file === entry.audio_b_file
+                        && parseInt(entry.dissimilarity_rating) !== 0) {
+                    needsReminding = true;
+                    erroneousScore = entry.dissimilarity_rating;
+                }
+            }
+        }
+        if (!needsReminding) {
+            reminder.end();
+        } else {
+            document.getElementById('erroneous_score').innerHTML =
+                erroneousScore.toString();
+        }
     });
     
     return block;

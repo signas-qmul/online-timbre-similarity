@@ -1,0 +1,9 @@
+{
+    "text_body": [
+        "<p>In the practice section, you heard a pair of identical sounds ",
+        "and gave a dissimilarity score of <span id=\"erroneous_score\">0",
+        "</span></p>",
+        "<p>Remember, when you are asked to compare two identical sounds ",
+        "you should use a dissimilarity score of zero.</p>"
+    ]
+}
