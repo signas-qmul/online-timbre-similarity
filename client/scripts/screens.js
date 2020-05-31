@@ -91,6 +91,7 @@ function dissimilarityScreen(
                 }
 
                 numberBox.style.background = '#a8df65';
+                numberBox.disabled = true;
 
                 setTimeout(() => {
                     submitButton.click();
