@@ -54,6 +54,7 @@ app.get('/data/dissimilarity_scores.csv', function(req, res) {
         'audio_a',
         'audio_b',
         'dissimilarity_rating',
+        'stimulus_play_count',
         'response_time'
     ];
     let csv_string = cols.join(',') + '\n';

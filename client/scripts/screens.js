@@ -31,6 +31,11 @@ return {
         let playing = false;
         let playerTimeout;
         const playAudio = function() {
+            const playCountElement =
+                document.getElementById('stimulus_play_count');
+            const currentPlayCount = parseInt(playCountElement.value);
+            playCountElement.value = currentPlayCount + 1;
+
             playing = true;
             const playerA = document.getElementById('audio_a');
             const playerB = document.getElementById('audio_b');
