@@ -7,7 +7,7 @@ A web-app for conducting an online timbre dissimilarity study, following the met
 Installation is straightforward with:
 
 ```zsh
-yarn lint
+yarn install
 ```
 
 ## Usage
