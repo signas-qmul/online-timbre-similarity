@@ -1,16 +1,24 @@
 requirejs.config({
-    shim: {
-        lab: {
-            exports: 'lab'
-        }
+  shim: {
+    lab: {
+      exports: 'lab',
     },
-    paths: {
-        lab: '../lib/lab'
-    }
+  },
+  paths: {
+    lab: '../lib/lab',
+  },
 });
 
 define(['lab', 'sections'], function(lab, sections) {
-async function get() {
+  /**
+   * Creates a timbre dissimilarity experiment using lab.js.
+   *
+   * @return {object} Contains references to lab.flow.Sequence instances. The
+   *  first is the full experiment flow (.run() is called on this) and the
+   *  second is everything up to the final screen, allowing for early
+   *  termination.
+   */
+  async function get() {
     const experimentSpecReq = await fetch('api/get-experiment-spec');
     const experimentSpec = await experimentSpecReq.json();
     console.log(experimentSpec);
@@ -28,33 +36,33 @@ async function get() {
     const experimentCompleteSection = await sections.experimentComplete();
 
     const experiment = new lab.flow.Sequence({
-        content: [
-            welcomeSection,
-            headphoneCheckSection,
-            auditionFiles,
-            dissimilarityPracticeSection,
-            dissimilaritySection,
-            questionnaireSection
-        ],
+      content: [
+        welcomeSection,
+        headphoneCheckSection,
+        auditionFiles,
+        dissimilarityPracticeSection,
+        dissimilaritySection,
+        questionnaireSection,
+      ],
     });
     const fullSequence = new lab.flow.Sequence({
-        content: [experiment, experimentCompleteSection]
+      content: [experiment, experimentCompleteSection],
     });
 
     experiment.on('end', () => {
-        if (!experiment.cancelled) {
-            console.log(experiment.options.datastore);
-            experiment.options.datastore.transmit(
-                'api/store-experiment-data',
-                {
-                    specId: experimentSpec.specId
-                }
-            ).then(res => {
-                console.log(res);
-            });
-        }
+      if (!experiment.cancelled) {
+        console.log(experiment.options.datastore);
+        experiment.options.datastore.transmit(
+            'api/store-experiment-data',
+            {
+              specId: experimentSpec.specId,
+            },
+        ).then((res) => {
+          console.log(res);
+        });
+      }
     });
     return {fullSequence, experiment};
-}
-return {get};
+  }
+  return {get};
 });

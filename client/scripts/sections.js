@@ -1,56 +1,68 @@
 requirejs.config({
-    shim: {
-        lab: {
-            exports: 'lab'
-        }
+  shim: {
+    lab: {
+      exports: 'lab',
     },
-    paths: {
-        lab: '../lib/lab'
-    }
+  },
+  paths: {
+    lab: '../lib/lab',
+  },
 });
 
 define(['lab', 'templating', 'screens'], function(lab, templating, screens) {
-async function welcomeScreens() {
+  /**
+   * Creates the welcome section of the experiment
+   *
+   * @return {lab.flow.Sequence} A block of all welcome screens.
+   */
+  async function welcomeScreens() {
     const sectionScreenTemplates = {
-        welcome_1: 'text_screen',
-        welcome_2: 'text_screen',
-        info_1: 'text_screen',
-        info_2: 'text_screen',
-        info_3: 'text_screen',
-        info_4: 'text_screen',
-        consent: 'consent_form',
-        consent_failure: 'text_screen_no_continue',
-        pdf_download: 'text_screen',
+      welcome_1: 'text_screen',
+      welcome_2: 'text_screen',
+      info_1: 'text_screen',
+      info_2: 'text_screen',
+      info_3: 'text_screen',
+      info_4: 'text_screen',
+      consent: 'consent_form',
+      consent_failure: 'text_screen_no_continue',
+      pdf_download: 'text_screen',
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
-    
+
     const createdScreens = [];
     for (const template in templates) {
+      if (Object.prototype.hasOwnProperty.call(templates, template)) {
         let screen;
         if (sectionScreenTemplates[template] === 'consent_form') {
-            screen = screens.consentForm(
-                templates[template],
-                templates.consent_failure);
+          screen = screens.consentForm(
+              templates[template],
+              templates.consent_failure);
         } else if (sectionScreenTemplates[template] === 'text_screen') {
-            screen = screens.textScreen(templates[template]);
+          screen = screens.textScreen(templates[template]);
         } else if (template === 'consent_failure') {
-            continue;
+          continue;
         }
         createdScreens.push(screen);
+      }
     }
     const block = new lab.flow.Sequence({
-        content: createdScreens,
+      content: createdScreens,
     });
 
     return block;
-}
+  }
 
-async function headphoneCheck() {
+  /**
+   * Creates the headphone check section of the experiment.
+   *
+   * @return {lab.flow.Sequence} A block of headphone check screens.
+   */
+  async function headphoneCheck() {
     const sectionScreenTemplates = {
-        headphone_explanation: 'text_screen',
-        headphone_check: 'headphone_check',
-        headphone_complete: 'text_screen',
+      headphone_explanation: 'text_screen',
+      headphone_check: 'headphone_check',
+      headphone_complete: 'text_screen',
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
@@ -60,16 +72,22 @@ async function headphoneCheck() {
     const headphoneComplete =
         screens.textScreen(templates.headphone_complete);
     const block = new lab.flow.Sequence({
-        content: [headphoneExplanation, headphoneScreen, headphoneComplete],
+      content: [headphoneExplanation, headphoneScreen, headphoneComplete],
     });
     return block;
-}
+  }
 
-async function auditionFiles(audioFiles) {
+  /**
+   * Creates the file audition section of the experiment.
+   *
+   * @param {Array} audioFiles
+   * @return {lab.flow.Sequence} A block of all audition screens.
+   */
+  async function auditionFiles(audioFiles) {
     const sectionScreenTemplates = {
-        audition_explanation: 'text_screen',
-        audition_files: 'audition_files',
-    }
+      audition_explanation: 'text_screen',
+      audition_files: 'audition_files',
+    };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
     const auditionExplanation =
@@ -79,39 +97,58 @@ async function auditionFiles(audioFiles) {
         audioFiles);
 
     const block = new lab.flow.Sequence({
-        content: [auditionExplanation, auditionScreen],
-    })
-    return block;
-}
-
-function dissimilarityInnerBlock(
-    template,
-    screenName,
-    audioFilePairs,
-    practiceReminderTemplate)
-{
-
-    const block = new lab.flow.Loop({
-        template: screens.dissimilarityScreen.bind(
-            undefined,
-            template,
-            screenName,
-            practiceReminderTemplate),
-        templateParameters: audioFilePairs
+      content: [auditionExplanation, auditionScreen],
     });
     return block;
-}
+  }
 
-async function dissimilarityPracticeBlock(audioFilePairs) {
+  /**
+   * Creates a block of dissimilarity rating screens. This is the "inner" block
+   * -- i.e. it doesn't contain any breaks.
+   *
+   * @param {*} template The HTML template which populates the screens.
+   * @param {*} screenName The name used in the datastore.
+   * @param {*} audioFilePairs An object containing audio file names.
+   * @param {*} practiceReminderTemplate An optional template containing the
+   *  HTML used to populate the reminder screen shown if a user rates
+   *  identical sounds anything other than 0.
+   * @return {lab.flow.Sequence} The block of all dissimilarity screens.
+   */
+  function dissimilarityInnerBlock(
+      template,
+      screenName,
+      audioFilePairs,
+      practiceReminderTemplate) {
+    const block = new lab.flow.Loop({
+      template: screens.dissimilarityScreen.bind(
+          undefined,
+          template,
+          screenName,
+          practiceReminderTemplate),
+      templateParameters: audioFilePairs,
+    });
+    return block;
+  }
+
+  /**
+   * Creates a block of dissimilarity rating practice screens. If any of the
+   * screens (as specified in the spec) present an identical pair of stimuli,
+   * the user will be reminded to rate them 0 if they fail to do so.:w
+   *
+   * @param {*} audioFilePairs A list of audio file objects to be accepted by
+   *  dissimilarityInnerBlock
+   * @return {lab.flow.Sequence} The dissimilarity practice block.
+   */
+  async function dissimilarityPracticeBlock(audioFilePairs) {
     const sectionScreenTemplates = {
-        practice_explanation_1: 'text_screen',
-        practice_explanation_2: 'text_screen',
-        dissimilarity_rating: 'dissimilarity_rating',
-        practice_reminder: 'text_screen'
+      practice_explanation_1: 'text_screen',
+      practice_explanation_2: 'text_screen',
+      dissimilarity_rating: 'dissimilarity_rating',
+      practice_reminder: 'text_screen',
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
-    
+
     const explanation1 = screens.textScreen(templates.practice_explanation_1);
     const explanation2 = screens.textScreen(templates.practice_explanation_2);
     const practiceBlock = dissimilarityInnerBlock(
@@ -120,20 +157,28 @@ async function dissimilarityPracticeBlock(audioFilePairs) {
         audioFilePairs,
         templates.practice_reminder);
     const block = new lab.flow.Sequence({
-        content: [explanation1, explanation2, practiceBlock],
+      content: [explanation1, explanation2, practiceBlock],
     });
-    
-    return block;
-}
 
-async function dissimilarityBlock(audioFilePairs, pairsPerTrial) {
-    pairsPerTrial = pairsPerTrial || 100;
+    return block;
+  }
+
+  /**
+   * Creates a full sequence of dissimilarity rating screens.
+   *
+   * @param {*} audioFilePairs A list of audio file objects to be accepted by
+   *  dissimilarityInnerBlock.
+   * @param {*} ratingsPerBlock (optional) The number of ratings per block.
+   * @return {lab.flow.Sequence} The full dissimilarity block.
+   */
+  async function dissimilarityBlock(audioFilePairs, ratingsPerBlock) {
+    ratingsPerBlock = ratingsPerBlock || 100;
 
     const sectionScreenTemplates = {
-        dissimilarity_rating: 'dissimilarity_rating',
-        dissimilarity_break: 'text_screen',
-        dissimilarity_explanation: 'text_screen',
-        dissimilarity_complete: 'text_screen'
+      dissimilarity_rating: 'dissimilarity_rating',
+      dissimilarity_break: 'text_screen',
+      dissimilarity_explanation: 'text_screen',
+      dissimilarity_complete: 'text_screen',
     };
 
     const templates =
@@ -143,21 +188,22 @@ async function dissimilarityBlock(audioFilePairs, pairsPerTrial) {
         screens.textScreen(templates.dissimilarity_explanation);
     const blockScreens = [explanationScreen];
     const numberOfInnerBlocks =
-        Math.ceil(audioFilePairs.length / pairsPerTrial);
+        Math.ceil(audioFilePairs.length / ratingsPerBlock);
     for (let i = 0; i < numberOfInnerBlocks; i++) {
-        const innerBlockAudioPairs =
-            audioFilePairs.slice(i * pairsPerTrial, (i + 1) * pairsPerTrial);
-        const thisInnerBlock = dissimilarityInnerBlock(
-            templates.dissimilarity_rating,
-            'dissimilarity',
-            innerBlockAudioPairs);
-        blockScreens.push(thisInnerBlock);
+      const innerBlockAudioPairs = audioFilePairs.slice(
+          i * ratingsPerBlock,
+          (i + 1) * ratingsPerBlock);
+      const thisInnerBlock = dissimilarityInnerBlock(
+          templates.dissimilarity_rating,
+          'dissimilarity',
+          innerBlockAudioPairs);
+      blockScreens.push(thisInnerBlock);
 
-        if (i < numberOfInnerBlocks - 1) {
-            const breakScreen =
+      if (i < numberOfInnerBlocks - 1) {
+        const breakScreen =
                 screens.textScreen(templates.dissimilarity_break);
-            blockScreens.push(breakScreen);
-        }
+        blockScreens.push(breakScreen);
+      }
     }
 
     const completeScreen =
@@ -165,46 +211,56 @@ async function dissimilarityBlock(audioFilePairs, pairsPerTrial) {
     blockScreens.push(completeScreen);
 
     const block = new lab.flow.Sequence({
-        content: blockScreens
+      content: blockScreens,
     });
     return block;
-}
+  }
 
-async function questionnaire() {
+  /**
+   * Creates the questionnaire sequence
+   *
+   * @return {lab.flow.Sequence} The questionnaire block
+   */
+  async function questionnaire() {
     const sectionScreenTemplates = {
-        questionnaire: 'questionnaire',
-        questionnaire_explanation: 'text_screen'
+      questionnaire: 'questionnaire',
+      questionnaire_explanation: 'text_screen',
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
-    
+
     const questionnaireScreen = screens.questionnaire(templates.questionnaire);
     const questionnaireExplanation =
         screens.textScreen(templates.questionnaire_explanation);
     const block = new lab.flow.Sequence({
-        content: [questionnaireExplanation, questionnaireScreen]
+      content: [questionnaireExplanation, questionnaireScreen],
     });
     return block;
-}
+  }
 
-async function experimentComplete() {
+  /**
+   * Creates the final screen
+   *
+   * @return {lab.html.Screen} The experiment completion screen
+   */
+  async function experimentComplete() {
     const sectionScreenTemplates = {
-        experiment_complete: 'text_screen_no_continue'
+      experiment_complete: 'text_screen_no_continue',
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
-    
+
     const experimentCompleteScreen =
         screens.textScreenNoContinue(templates.experiment_complete);
-    
+
     experimentCompleteScreen.on('run', () => {
-        const stopButton = document.getElementById('stop-button');
-        stopButton.style.display = 'none';
+      const stopButton = document.getElementById('stop-button');
+      stopButton.style.display = 'none';
     });
     return experimentCompleteScreen;
-}
+  }
 
-return {
+  return {
     welcomeScreens,
     auditionFiles,
     headphoneCheck,
@@ -212,6 +268,6 @@ return {
     dissimilarityPracticeBlock,
     dissimilarityBlock,
     questionnaire,
-    experimentComplete
-};
+    experimentComplete,
+  };
 });
