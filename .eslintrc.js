@@ -17,4 +17,5 @@ module.exports = {
   },
   'rules': {
   },
+  'ignorePatterns': ['client/lib/*'],
 };
