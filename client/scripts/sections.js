@@ -19,10 +19,6 @@ define(['lab', 'templating', 'screens'], function(lab, templating, screens) {
     const sectionScreenTemplates = {
       welcome_1: 'text_screen',
       welcome_2: 'text_screen',
-      info_1: 'text_screen',
-      info_2: 'text_screen',
-      info_3: 'text_screen',
-      info_4: 'text_screen',
       consent: 'consent_form',
       consent_failure: 'text_screen_no_continue',
       pdf_download: 'text_screen',
@@ -60,19 +56,16 @@ define(['lab', 'templating', 'screens'], function(lab, templating, screens) {
    */
   async function headphoneCheck() {
     const sectionScreenTemplates = {
-      headphone_explanation: 'text_screen',
       headphone_check: 'headphone_check',
       headphone_complete: 'text_screen',
     };
     const templates =
         await templating.getSectionScreenTemplates(sectionScreenTemplates);
-    const headphoneExplanation =
-        screens.textScreen(templates.headphone_explanation);
     const headphoneScreen = screens.headphoneCheck(templates.headphone_check);
     const headphoneComplete =
         screens.textScreen(templates.headphone_complete);
     const block = new lab.flow.Sequence({
-      content: [headphoneExplanation, headphoneScreen, headphoneComplete],
+      content: [headphoneScreen, headphoneComplete],
     });
     return block;
   }

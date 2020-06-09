@@ -227,9 +227,14 @@ define(['lab', 'templating', 'HeadphoneCheck'], function(
         } else {
           $('<div/>', {
             class: 'hc-calibration-instruction',
-            html: 'You must be wearing headphones to participate.' +
-                        ' The experiment will now terminate.<br/><b>' +
-                        'Please close your browser window.</b>',
+            html: [
+              '<p>It appears you are not wearing headphones.</p>',
+              '<p>This study can only be completed wearing headphones. If you ',
+              'do not have headphones available, please close your browser ',
+              'window.</p>',
+              '<p>Otherwise, please put on your headphones and refresh the ',
+              'page to try again.</p>',
+            ].join(''),
           }).appendTo($('#hc-container'));
         }
       });
@@ -272,26 +277,16 @@ define(['lab', 'templating', 'HeadphoneCheck'], function(
     });
 
     let consent = false;
-    let submitListener;
+    let agreeListener;
     labScreen.on('run', () => {
-      const submitButton = document.getElementsByName('submit')[0];
-      const form = document.forms.consent_form;
-      const explained = form.elements.explained;
-      const withdraw = form.elements.withdraw;
-      const readNotes = form.elements.read_notes;
-      const agree = form.elements.agree;
-      submitListener = submitButton.addEventListener('click', (e) => {
-        if (explained.value === 'yes' &&
-                withdraw.value === 'yes' &&
-                readNotes.value === 'yes' &&
-                agree.value === 'yes') {
-          consent = true;
-        }
+      const submitButton = document.getElementById('agree');
+      agreeListener = submitButton.addEventListener('click', (e) => {
+        consent = true;
       });
     });
     labScreen.on('end', () => {
-      const submitButton = document.getElementsByName('submit')[0];
-      submitButton.removeEventListener('click', submitListener);
+      const submitButton = document.getElementById('agree');
+      submitButton.removeEventListener('click', agreeListener);
     });
     confirmScreen.on('run', () => {
       if (consent) {
