@@ -227,9 +227,14 @@ define(['lab', 'templating', 'HeadphoneCheck'], function(
         } else {
           $('<div/>', {
             class: 'hc-calibration-instruction',
-            html: 'You must be wearing headphones to participate.' +
-                        ' The experiment will now terminate.<br/><b>' +
-                        'Please close your browser window.</b>',
+            html: [
+              '<p>It appears you are not wearing headphones.</p>',
+              '<p>This study can only be completed wearing headphones. If you ',
+              'do not have headphones available, please close your browser ',
+              'window.</p>',
+              '<p>Otherwise, please put on your headphones and refresh the ',
+              'page to try again.</p>',
+            ].join(''),
           }).appendTo($('#hc-container'));
         }
       });
