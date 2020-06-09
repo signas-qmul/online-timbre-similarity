@@ -19,10 +19,6 @@ define(['lab', 'templating', 'screens'], function(lab, templating, screens) {
     const sectionScreenTemplates = {
       welcome_1: 'text_screen',
       welcome_2: 'text_screen',
-//      info_1: 'text_screen',
-//      info_2: 'text_screen',
-//      info_3: 'text_screen',
-//      info_4: 'text_screen',
       consent: 'consent_form',
       consent_failure: 'text_screen_no_continue',
       pdf_download: 'text_screen',
