@@ -230,7 +230,17 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
     // render boilerplate instruction text
     $('<div/>', {
       class: 'hc-calibration-instruction',
-      html: '<p></p>'
+      html: [
+        "<p>In order to participate in this study you must be wearing ",
+        "headphones. If you are not already doing so, please take a moment ",
+        "now to put on your headphones.</p>",
+        "<p>Over the following screens, you will calibrate your listening ",
+        "volume and perform a simple listening task to ensure your headphones ",
+        "are set up correctly. Please follow the instructions carefully. </p>",
+        "<p>Successful completion of this task is required to continue with ",
+        "the experiment. If the task is not completed successfuly, the ",
+        "experiment will end.</p>"
+    ].join(''),
     }).appendTo($('#hc-container'));
     $('<div/>', {
       class: 'hc-calibration-instruction',
