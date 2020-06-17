@@ -238,7 +238,7 @@ Contact Ray Gonzalez raygon@mit.edu or Kevin J. P. Woods kwoods@mit.edu
         "volume and perform a simple listening task to ensure your headphones ",
         "are set up correctly. Please follow the instructions carefully. </p>",
         "<p>Successful completion of this task is required to continue with ",
-        "the experiment. If the task is not completed successfuly, the ",
+        "the experiment. If the task is not completed successfully, the ",
         "experiment will end.</p>"
     ].join(''),
     }).appendTo($('#hc-container'));
