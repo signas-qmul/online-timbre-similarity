@@ -10,7 +10,9 @@ const DISSIMILARITY_COLLECTION = 'dissimilarity_responses';
 const EXPERIMENT_SPEC_COLLECTION = 'experiment_specs';
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  limit: '50mb',
+}));
 app.use(express.static('client'));
 
 mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', function(err, client) {
