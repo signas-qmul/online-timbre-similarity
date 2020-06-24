@@ -97,7 +97,7 @@ define(['lab', 'templating', 'HeadphoneCheck'], function(
             setTimeout(() => {
               numberBox.style.background = '#ffffff';
             },
-            0);
+            650);
             return;
           }
 
@@ -107,7 +107,7 @@ define(['lab', 'templating', 'HeadphoneCheck'], function(
           setTimeout(() => {
             submitButton.click();
           },
-          0);
+          650);
           hasDelayed = true;
         }
         if (!hasPaused) {
