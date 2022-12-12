@@ -6,7 +6,7 @@
   "author": "Ben Hayes <ben@benhayes.net>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mongodb": "^3.5.7",
     "pdf-lib": "^1.6.1"
   },
